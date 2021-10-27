@@ -75,6 +75,7 @@ const resetGame = () => {
     const chosenBtns = document.querySelectorAll('.chosen');
     chosenBtns.forEach(btn => {
         btn.classList.remove('chosen');
+        btn.removeAttribute("disabled","");
     });
 
     missed = 0;
