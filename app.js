@@ -28,12 +28,15 @@ const addPhraseToDisplay = arr => {
         if (ch !== ' ') {
             li.className = 'letter';
         }
+        else{
+            li.className='space';
+        }
     }
 }
 
 //check if a letter is in the phrase
 const checkLetter = button => {
-    const allLetters = document.querySelectorAll('.letter');
+    const allLetters = document.querySelectorAll('#phrase li');
     let isMatched = false;
     allLetters.forEach(element => {
         if (button == element.textContent.toLowerCase()) {
@@ -76,11 +79,9 @@ const resetGame = () => {
 
     missed = 0;
 
-    const chooseScoreboard = document.querySelector('#scoreboard ol');
-    chooseScoreboard.innerHTML = '';
-    for (let i = 0; i < 4; i++) {
-        chooseScoreboard.innerHTML += `<li class="tries"><img src="images/liveHeart.png" height="35px" width="30px"></li>`;
-    }
+    document.querySelectorAll('.tries ').forEach(element => {
+        element.firstChild.setAttribute("src", "images/liveHeart.png");
+    });
 
     document.querySelector('#overlay').className='start';
 }
@@ -97,20 +98,25 @@ startButton.addEventListener('click', () => {
     console.log(missed);
 });
 
+
 //listen for the onscreen keyboard to be clicked
 qwerty.forEach(element => {
     element.addEventListener('click', e => {
         const chosenLetter = e.target.textContent;
         e.target.classList.add('chosen');
+        e.target.setAttribute("disabled","");
         const addCheckLetter = checkLetter(chosenLetter);
+  
+        const chooseScoreboard = document.querySelector('#scoreboard ol');
         if (addCheckLetter == null) {
             missed++;
-            console.log(missed);
-
+           
+    
             if (missed <= 4) {
-                document.querySelector('.tries').remove();
+                document.querySelectorAll('.tries ')[5-missed].firstChild.setAttribute("src", "images/lostHeart.png");
             }
         }
         checkWin();
+    
     });
 });
